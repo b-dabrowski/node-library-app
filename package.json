@@ -1,0 +1,44 @@
+{
+  "name": "library-app",
+  "version": "1.0.0",
+  "description": "Simple app for searching and borrowing books",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/b-dabrowski/node-library-app.git"
+  },
+  "keywords": [
+    "books"
+  ],
+  "author": "Bart",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/b-dabrowski/node-library-app/issues"
+  },
+  "homepage": "https://github.com/b-dabrowski/node-library-app#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.3",
+    "body-parser": "^1.13.2",
+    "colors": "^1.1.2",
+    "express": "^4.13.1",
+    "express-jwt": "^3.0.1",
+    "jsonwebtoken": "^5.0.4",
+    "lodash": "^3.10.0",
+    "method-override": "^2.3.4",
+    "mongoose": "^4.0.8",
+    "morgan": "^1.6.1",
+    "npm": "^6.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0"
+  }
+}
