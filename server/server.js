@@ -3,9 +3,13 @@ const customErrors = require('./util/customErrors');
 const config = require('./config/config');
 const logger = require('./util/logger');
 const addGlobalMiddleware = require('./middleware/appMiddleware');
+const api = require('./api/api');
 
 const app = express();
+
 addGlobalMiddleware(app);
+
+app.use('/api', api);
 
 app.use((err, req, res, next) => {
   if (err.name === customErrors.headers.UnauthorizedError) {
