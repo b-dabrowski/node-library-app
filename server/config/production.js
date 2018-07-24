@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
   logging: false,
   seed: false,
   db: {

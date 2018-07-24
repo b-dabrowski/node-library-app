@@ -25,13 +25,13 @@ exports.get = function get(req, res, next) {
 };
 
 exports.getOne = function getOne(req, res, next) {
-  const { category } = req.category;
+  const category = req.category;
   res.json(category);
 };
 
 exports.put = function put(req, res, next) {
-  const { category } = req.category;
-  const { update } = req.body;
+  const category = req.category;
+  const update = req.body;
 
   _.merge(category, update);
 
@@ -45,9 +45,9 @@ exports.put = function put(req, res, next) {
 };
 
 exports.post = function post(req, res, next) {
-  const { newcategory } = req.body;
+  const newCategory = req.body;
 
-  Category.create(newcategory)
+  Category.create(newCategory)
     .then((category) => {
       res.json(category);
     }, (err) => {

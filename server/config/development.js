@@ -1,7 +1,7 @@
-module.export = {
+module.exports = {
   logging: true,
   seed: true,
   db: {
-    url: 'mongodb://localhost:27017/nodelibrary',
+    url: 'mongodb://localhost:27017/nodelibrarydev',
   },
 };

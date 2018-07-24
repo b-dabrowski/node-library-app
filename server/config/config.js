@@ -17,7 +17,7 @@ const config = {
   logging: true,
   seed: true,
   db: {
-    url: 'mongodb://localhost:27017/nodelibrary',
+    url: process.env.DB_URL || 'NoConnectionString',
   },
 };
 

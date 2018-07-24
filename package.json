@@ -4,7 +4,7 @@
   "description": "Simple app for searching and borrowing books",
   "main": "index.js",
   "scripts": {
-    "test": "mocha server/api/category/category.spec.js"
+    "test": "mocha server/api/**/*.spec.js"
   },
   "repository": {
     "type": "git",

@@ -5,6 +5,12 @@ const logger = require('./util/logger');
 const addGlobalMiddleware = require('./middleware/appMiddleware');
 const api = require('./api/api');
 
+require('mongoose').connect(config.db.url);
+
+if (config.seed) {
+  require('./util/seed');
+}
+
 const app = express();
 
 addGlobalMiddleware(app);
