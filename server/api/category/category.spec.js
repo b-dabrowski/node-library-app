@@ -5,7 +5,7 @@ const app = require('../../server');
 describe('[Category]', () => {
   it('should get all categories', (done) => {
     request(app)
-      .get('/categories')
+      .get('/api/categories')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
@@ -17,7 +17,7 @@ describe('[Category]', () => {
 
   it('should create category', (done) => {
     request(app)
-      .post('/categories')
+      .post('/api/categories')
       .send({
         name: 'testCategory',
       })
@@ -34,7 +34,7 @@ describe('[Category]', () => {
 
   it('should add category to req', (done) => {
     request(app)
-      .post('/categories')
+      .post('/api/categories')
       .send({
         name: 'categoryInRequest',
       })
@@ -42,18 +42,17 @@ describe('[Category]', () => {
       .end((err, resp) => {
         const category = resp.body;
         request(app)
-          .get(`/category/${category.id}`)
+          .get(`/api/categories/${category._id}`)
           .end((err, resp) => {
-            expect(resp.body.name).has.property('category');
+            expect(resp.body).property('name').eq('categoryInRequest');
             done();
           });
-        done();
       });
   });
 
   it('should delete category', (done) => {
     request(app)
-      .post('/categories')
+      .post('/api/categories')
       .send({
         name: 'categoryToDelete',
       })
@@ -61,7 +60,7 @@ describe('[Category]', () => {
       .end((err, resp) => {
         const category = resp.body;
         request(app)
-          .delete(`/categories/${category.id}`)
+          .delete(`/api/categories/${category._id}`)
           .end((err, resp) => {
             expect(resp.body).property('name').eq('categoryToDelete');
             expect(resp.body).to.eql(category);
@@ -72,7 +71,7 @@ describe('[Category]', () => {
 
   it('should update category', (done) => {
     request(app)
-      .post('/categories')
+      .post('/api/categories')
       .send({
         name: 'categoryToUpdate',
       })
@@ -80,7 +79,7 @@ describe('[Category]', () => {
       .end((err, resp) => {
         const category = resp.body;
         request(app)
-          .put(`/category/${category.id}`)
+          .put(`/api/categories/${category._id}`)
           .send({
             name: 'newCategoryName',
           })
