@@ -4,6 +4,7 @@ const config = require('./config/config');
 const logger = require('./util/logger');
 const addGlobalMiddleware = require('./middleware/appMiddleware');
 const api = require('./api/api');
+const auth = require('./auth/authRoutes');
 
 require('mongoose').connect(config.db.url);
 
@@ -16,6 +17,7 @@ const app = express();
 addGlobalMiddleware(app);
 
 app.use('/api', api);
+app.use('/auth', auth);
 
 app.use((err, req, res, next) => {
   if (err.name === customErrors.headers.UnauthorizedError) {
