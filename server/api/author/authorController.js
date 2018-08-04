@@ -24,7 +24,7 @@ exports.get = function get(req, res, next) {
     });
 };
 
-exports.getOne = function getOne(req, res, next) {
+exports.getOne = function getOne(req, res) {
   const author = req.author;
   res.json(author);
 };

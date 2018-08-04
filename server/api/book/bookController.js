@@ -1,13 +1,13 @@
 const _ = require('lodash');
-const Category = require('./categoryModel');
+const Book = require('./bookModel');
 
 exports.params = function addCategoryToRequest(req, res, next, id) {
-  Category.findById(id)
-    .then((category) => {
-      if (!category) {
-        next(new Error('No category with that id'));
+  Book.findById(id)
+    .then((book) => {
+      if (!book) {
+        next(new Error('No book with that id'));
       } else {
-        req.category = category;
+        req.book = book;
         next();
       }
     }, (err) => {
@@ -16,26 +16,26 @@ exports.params = function addCategoryToRequest(req, res, next, id) {
 };
 
 exports.get = function get(req, res, next) {
-  Category.find({})
-    .then((category) => {
-      res.json(category);
+  Book.find({})
+    .then((book) => {
+      res.json(book);
     }, (err) => {
       next(err);
     });
 };
 
 exports.getOne = function getOne(req, res) {
-  const category = req.category;
-  res.json(category);
+  const book = req.book;
+  res.json(book);
 };
 
 exports.put = function put(req, res, next) {
-  const category = req.category;
+  const book = req.book;
   const update = req.body;
 
-  _.merge(category, update);
+  _.merge(book, update);
 
-  category.save((err, saved) => {
+  book.save((err, saved) => {
     if (err) {
       next(err);
     } else {
@@ -45,19 +45,19 @@ exports.put = function put(req, res, next) {
 };
 
 exports.post = function post(req, res, next) {
-  const newCategory = req.body;
+  const newBook = req.body;
 
-  Category.create(newCategory)
-    .then((category) => {
-      res.json(category);
+  Book.create(newBook)
+    .then((book) => {
+      res.json(book);
     }, (err) => {
       next(err);
     });
 };
 
 exports.delete = function remove(req, res, next) {
-  const categoryToRemove = req.category;
-  categoryToRemove.remove((err, removed) => {
+  const bookToRemove = req.book;
+  bookToRemove.remove((err, removed) => {
     if (err) {
       next(err);
     } else {

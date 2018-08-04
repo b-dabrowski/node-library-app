@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const Category = require('../api/category/categoryModel');
 const Author = require('../api/author/authorModel');
+const Book = require('../api/book/bookModel');
 const logger = require('./logger');
 
 logger.log('Seeding the Database');
@@ -17,13 +18,18 @@ const authors = [
   { name: 'authorC', surname: 'surnameC' },
 ];
 
+const books = [
+  { title: 'titleA', description: 'descriptionA' },
+  { title: 'titleB', description: 'descriptionB' }
+];
+
 const createDoc = (model, doc) => new Promise((resolve, reject) => {
   new model(doc).save((err, saved) => (err ? reject(err) : resolve(saved)));
 });
 
 const cleanDB = () => {
   logger.log('... cleaning the DB');
-  const cleanPromises = [Author, Category]
+  const cleanPromises = [Author, Category, Book]
     .map(model => model.remove().exec());
   return Promise.all(cleanPromises);
 };
@@ -42,8 +48,20 @@ const createAuthors = (data) => {
     .then(createdAuthors => _.merge({ authors: createdAuthors }, data || {}));
 };
 
+const createBooks = (data) => {  
+  const newBooks = books.map((book, i) => {
+    book.author = data.authors[i]._id;
+    book.category = data.categories[i]._id;
+    return createDoc(Book, book);
+  });
+
+  return Promise.all(newBooks)    
+    .then(createdBooks => _.merge({ books: createdBooks }, data || {}));
+};
+
 cleanDB()
   .then(createAuthors)
   .then(createCategories)
+  .then(createBooks)
   .then(logger.log.bind(logger))
   .catch(logger.log.bind(logger));
