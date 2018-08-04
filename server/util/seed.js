@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const User = require('../api/user/userModel');
 const Category = require('../api/category/categoryModel');
 const Author = require('../api/author/authorModel');
 const Book = require('../api/book/bookModel');
@@ -23,6 +24,12 @@ const books = [
   { title: 'titleB', description: 'descriptionB' }
 ];
 
+const users = [
+  { username: 'userA', password: 'test' },
+  { username: 'userB', password: 'test' },
+  { username: 'userC', password: 'test', role: 'admin' }
+];
+
 const createDoc = (model, doc) => new Promise((resolve, reject) => {
   new model(doc).save((err, saved) => (err ? reject(err) : resolve(saved)));
 });
@@ -32,6 +39,14 @@ const cleanDB = () => {
   const cleanPromises = [Author, Category, Book]
     .map(model => model.remove().exec());
   return Promise.all(cleanPromises);
+};
+
+const createUsers = function(data) {
+
+  const promises = users.map(user => createDoc(User, user));
+
+  return Promise.all(promises)
+    .then(createdUsers => _.merge({ users: createdUsers }, data || {}));
 };
 
 const createCategories = (data) => {
@@ -60,6 +75,7 @@ const createBooks = (data) => {
 };
 
 cleanDB()
+  .then(createUsers)
   .then(createAuthors)
   .then(createCategories)
   .then(createBooks)
