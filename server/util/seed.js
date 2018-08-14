@@ -36,7 +36,7 @@ const createDoc = (model, doc) => new Promise((resolve, reject) => {
 
 const cleanDB = () => {
   logger.log('... cleaning the DB');
-  const cleanPromises = [Author, Category, Book]
+  const cleanPromises = [User, Author, Category, Book]
     .map(model => model.remove().exec());
   return Promise.all(cleanPromises);
 };

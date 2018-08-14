@@ -16,6 +16,7 @@ const app = express();
 
 addGlobalMiddleware(app);
 
+app.use(express.static(`${__dirname}/client`));
 app.use('/api', api);
 app.use('/auth', auth);
 
