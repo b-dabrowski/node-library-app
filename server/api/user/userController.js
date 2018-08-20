@@ -60,9 +60,15 @@ exports.post = function (req, res, next) {
                 return next(err);
             } 
 
-            const token = signToken(user._id);
+            const token = signToken(user.id);
+            const username = user.username;
+
             res.json({
-                token
+                user:
+                {
+                    token,
+                    username
+                }
             });        
     });
 };

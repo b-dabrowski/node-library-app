@@ -36,8 +36,8 @@ exports.getFreshUser = function () {
 
 exports.verifyUser = function () {
     return function (req, res, next) {
-        const username = req.body.username;
-        const password = req.body.password;
+        const username = req.body.user.username;
+        const password = req.body.user.password;
 
         if (!username || !password) {
             res.status(400).send('You need a username and password');
