@@ -36,6 +36,12 @@ exports.getFreshUser = function () {
 
 exports.verifyUser = function () {
     return function (req, res, next) {
+
+        if (!req.body.user) {
+            res.status(400).send('You need a username and password');
+            return;
+        }
+        
         const username = req.body.user.username;
         const password = req.body.user.password;
 
@@ -46,9 +52,7 @@ exports.verifyUser = function () {
 
         User.findOne({
                 username: username
-            })
-            .select('-password')
-            .exec()
+            })            
             .then((user) => {
                 if (!user) {                    
                     res.status(422).json({
