@@ -10,8 +10,8 @@ const User = require('../api/user/userModel');
 
 exports.decodeToken = function () {
     return function (req, res, next) {
-        if (req.query && req.query.hasOwnProperty('access_token')) {
-            req.headers.authorization = `Bearer ${req.query.access_token}`;
+        if (req.query && req.headers.authorization) {
+            req.headers.authorization = `Bearer ${req.headers.authorization}`;
         }
 
         checkToken(req, res, next);
@@ -47,11 +47,27 @@ exports.verifyUser = function () {
         User.findOne({
                 username: username
             })
+            .select('-password')
+            .exec()
             .then((user) => {
-                if (!user) {
-                    res.status(401).send('No user with the given username');
+                if (!user) {                    
+                    res.status(422).json({
+                        errors: {
+                            'User': ['No user with the given username']
+                        }
+                    });
+                } else if (!user.password) {
+                    res.status(422).json({
+                        errors: {
+                            'Password': ['User has no password']
+                        }
+                    });
                 } else if (!user.authenticate(password)) {
-                    res.status(401).send('Wrong password');
+                    res.status(422).json({
+                        errors: {
+                            'Password': ['Wrong password']
+                        }
+                    });
                 } else {
                     req.user = user;
                     next();
@@ -64,9 +80,11 @@ exports.verifyUser = function () {
 
 exports.signToken = function (id) {
     return jwt.sign(
-        { _id: id },
+        {
+            _id: id
+        },
         config.secrets.jwt, {
-            expiresInMinutes: config.expireTime
+            expiresIn: config.expireTime
         }
     );
 };

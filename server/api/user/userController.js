@@ -84,5 +84,7 @@ exports.delete = function (req, res, next) {
 };
 
 exports.me = function (req, res) {
-    res.json(req.user.toJson());
+    res.json({
+        user: req.user.toJson()
+    });
 };
