@@ -1,6 +1,4 @@
 import angular from 'angular';
-
-// Import our app config files
 import constants  from './config/app.constants';
 import appConfig  from './config/app.config';
 import appRun     from './config/app.run';
@@ -9,24 +7,19 @@ import './config/app.templates';
 import './layout';
 import './components';
 import './home';
-// import './profile';
-// import './article';
-// import './services';
+import './auth';
+import './services';
 
-
-// Create and bootstrap application
 const requires = [
   'ui.router',
   'templates',
   'app.layout',
   'app.components',
   'app.home',
-//   'app.profile',
-//   'app.article',
-//   'app.services'
+  'app.auth',
+  'app.services'
 ];
 
-// Mount on window for testing
 window.app = angular.module('app', requires);
 
 angular.module('app').constant('AppConstants', constants);

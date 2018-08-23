@@ -1,5 +1,5 @@
 const AppConstants = {
-    api: 'http://localhost:3000/api',
+    api: '/api',
     jwtKey: 'jwtToken',
     appName: 'LibraryApp',
   };
