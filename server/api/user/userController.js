@@ -39,9 +39,9 @@ exports.getOne = function (req, res, next) {
 exports.put = function (req, res, next) {
     const user = req.user;
 
-    const update = req.body;
+    const fieldsToUpdate = req.body.user;
 
-    _.merge(user, update);
+    _.merge(user, fieldsToUpdate);
 
     user.save((err, saved) => {
         if (err) {
@@ -87,4 +87,38 @@ exports.me = function (req, res) {
     res.json({
         user: req.user.toJson()
     });
+};
+
+exports.getProfile = function (req, res, next) {
+    const username = req.params.username;
+    User.findOne({ username })
+        .select('-password')
+        .populate({
+            path: 'books',
+            model: 'book',
+            populate: [
+                { 
+                    path: 'category',                    
+                    model: 'category'
+                },
+                { 
+                    path: 'author',                    
+                    model: 'author'
+                }  
+            ]
+        })        
+        .exec()
+        .then((user) => {
+            if (!user) {
+                next(new Error('No user with that username'));
+            } else {                
+                req.user = user;
+                res.json({
+                    profile: user.toJson()
+                });       
+                // next();
+            }
+        }, (err) => {
+            next(err);
+        });
 };

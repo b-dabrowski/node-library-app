@@ -9,11 +9,15 @@ router.get('/me', checkUser, controller.me);
 
 router.route('/')
   .get(controller.get)
+  .put(checkUser, controller.put)
   .post(controller.post);
 
 router.route('/:id')
   .get(controller.getOne)
   .put(checkUser, controller.put)
   .delete(checkUser, controller.delete);
+
+  router.route('/profiles/:username')
+  .get(controller.getProfile);
 
 module.exports = router;

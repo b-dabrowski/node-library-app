@@ -21,7 +21,8 @@ const authors = [
 
 const books = [
   { title: 'titleA', description: 'descriptionA' },
-  { title: 'titleB', description: 'descriptionB' }
+  { title: 'titleB', description: 'descriptionB' },
+  { title: 'titleC', description: 'descriptionC' }
 ];
 
 const users = [
@@ -36,17 +37,9 @@ const createDoc = (model, doc) => new Promise((resolve, reject) => {
 
 const cleanDB = () => {
   logger.log('... cleaning the DB');
-  const cleanPromises = [User, Author, Category, Book]
+  const cleanPromises = [Author, Category, Book, User]
     .map(model => model.remove().exec());
   return Promise.all(cleanPromises);
-};
-
-const createUsers = function(data) {
-
-  const promises = users.map(user => createDoc(User, user));
-
-  return Promise.all(promises)
-    .then(createdUsers => _.merge({ users: createdUsers }, data || {}));
 };
 
 const createCategories = (data) => {
@@ -74,10 +67,22 @@ const createBooks = (data) => {
     .then(createdBooks => _.merge({ books: createdBooks }, data || {}));
 };
 
-cleanDB()
-  .then(createUsers)
+const createUsers = function(data) {
+
+  const newUsers = users.map((user, i) => {
+     user.books = [];
+     user.books.push(data.books[i]._id);    
+     return createDoc(User, user);
+    });
+
+  return Promise.all(newUsers)
+    .then(createdUsers => _.merge({ users: createdUsers }, data || {}));
+};
+
+cleanDB()  
   .then(createAuthors)
   .then(createCategories)
   .then(createBooks)
+  .then(createUsers)
   .then(logger.log.bind(logger))
   .catch(logger.log.bind(logger));
