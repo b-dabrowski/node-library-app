@@ -9,6 +9,8 @@ import './components';
 import './home';
 import './auth';
 import './services';
+import './settings';
+import './profile';
 
 const requires = [
   'ui.router',
@@ -17,7 +19,9 @@ const requires = [
   'app.components',
   'app.home',
   'app.auth',
-  'app.services'
+  'app.services',
+  'app.settings',
+  'app.profile'
 ];
 
 window.app = angular.module('app', requires);
