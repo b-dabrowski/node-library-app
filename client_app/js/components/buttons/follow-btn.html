@@ -1,0 +1,8 @@
+<button
+  class="btn btn-sm"
+  ng-class="{ 'disabled': $ctrl.isSubmitting,
+              'btn-primary': !$ctrl.author.isUserFollowing,
+              'btn-default': $ctrl.author.isUserFollowing }"
+  ng-click="$ctrl.submit()">   
+  {{ $ctrl.author.isUserFollowing ? 'Unfollow' : 'Follow' }} {{ $ctrl.author.name }}
+</button>

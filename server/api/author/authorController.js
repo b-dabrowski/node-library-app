@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const Author = require('./authorModel');
+const User = require('../user/userModel');
 
 exports.params = function addAuthorToRequest(req, res, next, id) {
   Author.findById(id)
@@ -26,7 +27,7 @@ exports.get = function get(req, res, next) {
 
 exports.getOne = function getOne(req, res) {
   const author = req.author;
-  res.json(author);
+  res.json({ author });
 };
 
 exports.put = function put(req, res, next) {
@@ -64,4 +65,77 @@ exports.delete = function remove(req, res, next) {
       res.json(removed);
     }
   });
+};
+
+exports.follow = function follow(req, res, next) {
+  const user = req.user;
+  let author = req.author;
+
+  User.findById(user.id)
+    .then((user) => {
+      user.followedAuthors.push(author.id);
+      user.save((err, updatedUser) => {
+        if (err) {
+          next(err);
+        } else {
+          author = author.toJson();
+          author.isUserFollowing = true;
+          res.json(author);
+        }
+      });          
+    }, (err) => {
+      next(err);
+    });
+};
+
+exports.unfollow = function follow(req, res, next) {
+  const user = req.user;
+  const author = req.author;
+
+  User.findById(user.id)
+    .then((user) => {
+      user.followedAuthors.remove(author.id);
+      user.save((err, updatedUser) => {
+        if (err) {
+          next(err);
+        } else {          
+          author.isUserFollowing = false;
+          res.json(author);
+        }
+      });          
+    }, (err) => {
+      next(err);
+    });
+};
+
+exports.getAuthorFollowingInfo = function getAuthorFollowingInfo(req, res, next) {
+  const user = req.user;
+  let author = req.author;
+
+  User.findById(user.id)
+        .select('-password')
+        .populate({
+            path: 'followedAuthors',
+            model: 'author',
+        })            
+        .exec()
+        .then((user) => {
+            if (!user) {
+                next(new Error('No user with that id'));
+            } else {                                
+                const followedAuthor = _.find(user.followedAuthors, followedAuthor => followedAuthor.id === author.id);                                
+
+                if (followedAuthor) {
+                  author = author.toJson();
+                  author.isUserFollowing = true;
+                  res.json(author);
+                } else {
+                  author = author.toJson();
+                  author.isUserFollowing = false;
+                  res.json(author);
+                }            
+            }
+        }, (err) => {
+            next(err);
+        });
 };

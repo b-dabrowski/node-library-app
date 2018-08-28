@@ -13,4 +13,11 @@ const AuthorSchema = new Schema({
   },
 });
 
+AuthorSchema.methods = {
+  toJson() {
+    const obj = this.toObject();    
+    return obj;
+}
+};
+
 module.exports = mongoose.model('author', AuthorSchema);

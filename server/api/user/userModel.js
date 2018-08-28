@@ -19,11 +19,18 @@ const UserSchema = new Schema({
         default: 'user'
     },
     books: [
-    {
-        type: Schema.Types.ObjectId,
-        ref: 'book'
-    }
-]
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'book'
+        } 
+    ],
+    followedAuthors: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'author'
+        }
+        
+    ]
 });
 
 UserSchema.pre('save', function (next) {

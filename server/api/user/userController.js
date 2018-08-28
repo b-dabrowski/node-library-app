@@ -115,8 +115,7 @@ exports.getProfile = function (req, res, next) {
                 req.user = user;
                 res.json({
                     profile: user.toJson()
-                });       
-                // next();
+                });                       
             }
         }, (err) => {
             next(err);
