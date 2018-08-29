@@ -15,4 +15,10 @@ servicesModule.service('Profile', ProfileService);
 import AuthorService from './author.service';
 servicesModule.service('Author', AuthorService);
 
+import BookService from './book.service';
+servicesModule.service('Book', BookService);
+
+import CategoryService from './category.service';
+servicesModule.service('Category', CategoryService);
+
 export default servicesModule;

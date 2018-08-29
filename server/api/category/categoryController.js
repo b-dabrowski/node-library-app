@@ -17,8 +17,8 @@ exports.params = function addCategoryToRequest(req, res, next, id) {
 
 exports.get = function get(req, res, next) {
   Category.find({})
-    .then((category) => {
-      res.json(category);
+    .then((categories) => {
+      res.json({ categories });
     }, (err) => {
       next(err);
     });
@@ -26,7 +26,7 @@ exports.get = function get(req, res, next) {
 
 exports.getOne = function getOne(req, res) {
   const category = req.category;
-  res.json(category);
+  res.json({ category });
 };
 
 exports.put = function put(req, res, next) {

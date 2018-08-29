@@ -1,0 +1,78 @@
+<div class="editor-page">
+        <div class="container page">
+          <div class="row">
+            <div class="col-md-10 offset-md-1 col-xs-12">
+      
+              <list-errors errors="$ctrl.errors"></list-errors>
+      
+              <form>
+                <fieldset ng-disabled="$ctrl.isSubmitting">
+      
+                  <fieldset class="form-group">
+                    <input class="form-control form-control-lg"
+                      ng-model="$ctrl.book.title"
+                      type="text"
+                      placeholder="Book Title" />
+                  </fieldset>                        
+      
+                  <fieldset class="form-group">
+                    <select class="form-control"                      
+                      ng-model="$ctrl.book.category">
+                      <option value="" disabled>Choice category</option>
+                      <option 
+                        ng-repeat="category in $ctrl.categories"
+                        value="{{category._id}}">
+                        {{category.name}}
+                      </option>
+                    
+                    </select>                  
+                  </fieldset>
+
+                  <fieldset class="form-group">
+                    <select class="form-control"                      
+                      ng-model="$ctrl.book.author">
+                      <option value="" disabled>Choice author</option>
+                    <option 
+                      ng-repeat="author in $ctrl.authors"
+                      value="{{author._id}}">
+                      {{author.name}} {{author.surname}}
+                    </option>
+
+                    </select>
+                  </fieldset>
+                  
+                  <fieldset class="form-group">
+                    <textarea class="form-control"
+                      rows="8"
+                      ng-model="$ctrl.book.description"
+                      placeholder="What's this book about?">
+                    </textarea>
+                  </fieldset>
+      
+                  <fieldset class="form-group">
+                    <input class="form-control"
+                      type="text"
+                      placeholder="Enter tags"
+                      ng-model="$ctrl.tagField"
+                      ng-keyup="$event.keyCode == 13 && $ctrl.addTag()" />
+      
+                    <div class="tag-list">
+                      <span ng-repeat="tag in $ctrl.book.tags"
+                        class="label label-default">
+                        <span class="glyphicon glyphicon-remove-circle" ng-click="$ctrl.removeTag(tag)"></span>
+                        {{ tag }}
+                      </span>
+                    </div>
+                  </fieldset>
+      
+                  <button class="btn btn-lg pull-xs-right btn-primary" type="button" ng-click="$ctrl.submit()">
+                    Add Book
+                  </button>
+      
+                </fieldset>
+              </form>
+      
+            </div>
+          </div>
+        </div>
+      </div>

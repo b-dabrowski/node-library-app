@@ -16,7 +16,9 @@ const BookSchema = new Schema({
         type: Boolean,
         default: true
     },
-    category: {
+    tags: [String],
+    category:
+    {
         type: Schema.Types.ObjectId,
         ref: 'category',
         required: true
@@ -25,7 +27,19 @@ const BookSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'author',
         required: true
+    },
+    addedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'        
     }
 });
+
+BookSchema.methods = {
+    toJson() {
+        const obj = this.toObject();
+        delete obj.addedBy;
+        return obj;
+    }
+};
 
 module.exports = mongoose.model('book', BookSchema);

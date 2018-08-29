@@ -19,7 +19,7 @@ exports.params = function addAuthorToRequest(req, res, next, id) {
 exports.get = function get(req, res, next) {
   Author.find({})
     .then((authors) => {
-      res.json(authors);
+      res.json({ authors });
     }, (err) => {
       next(err);
     });

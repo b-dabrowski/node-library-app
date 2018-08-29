@@ -3,6 +3,10 @@ const Book = require('./bookModel');
 
 exports.params = function addCategoryToRequest(req, res, next, id) {
   Book.findById(id)
+    .populate('category', 'id')
+    .populate('addedBy', 'id')
+    .populate('author', 'id')
+    .exec()
     .then((book) => {
       if (!book) {
         next(new Error('No book with that id'));
@@ -26,12 +30,18 @@ exports.get = function get(req, res, next) {
 
 exports.getOne = function getOne(req, res) {
   const book = req.book;
-  res.json(book);
+  const user = req.user;
+  const isCurrentUserAddedBook = book.addedBy.id === user.id;
+
+  res.json({
+    book: book.toJson(),
+    canEdit: isCurrentUserAddedBook
+  });
 };
 
 exports.put = function put(req, res, next) {
   const book = req.book;
-  const update = req.body;
+  const update = req.body.book;
 
   _.merge(book, update);
 
@@ -45,11 +55,20 @@ exports.put = function put(req, res, next) {
 };
 
 exports.post = function post(req, res, next) {
-  const newBook = req.body;
+  const newBook = req.body.book;
+  const user = req.user;
+
+  newBook.addedBy = user.id;
 
   Book.create(newBook)
     .then((book) => {
-      res.json(book);
+
+      const createdBook = book.toJson();
+      createdBook.canEdit = true;
+
+      res.json({
+        book: createdBook
+      });
     }, (err) => {
       next(err);
     });

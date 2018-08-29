@@ -13,6 +13,12 @@ export default class Author {
     }).then((res) => res.data.author);
   }
 
+  getAll() {
+    return this._$http({
+      url: `${this._AppConstants.api}/authors`,
+      method: 'GET'
+    }).then((res) => res.data.authors);
+  }
 
   follow(id) {
     return this._$http({
