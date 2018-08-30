@@ -13,6 +13,7 @@ import './settings';
 import './profile';
 import './author';
 import './editor';
+import './book';
 
 const requires = [
   'ui.router',
@@ -25,7 +26,8 @@ const requires = [
   'app.settings',
   'app.profile',
   'app.author',
-  'app.editor'
+  'app.editor',
+  'app.book'
 ];
 
 window.app = angular.module('app', requires);

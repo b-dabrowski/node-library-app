@@ -61,13 +61,11 @@ exports.post = function post(req, res, next) {
   newBook.addedBy = user.id;
 
   Book.create(newBook)
-    .then((book) => {
-
-      const createdBook = book.toJson();
-      createdBook.canEdit = true;
-
+    .then((book) => {      
+      
       res.json({
-        book: createdBook
+        book: book.toJson(),
+        canEdit: true
       });
     }, (err) => {
       next(err);

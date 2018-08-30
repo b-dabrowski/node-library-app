@@ -39,7 +39,7 @@ class EditorCtrl {
         this._Book.save(this.book).then(
             (newBook) => {
                 this._$state.go('app.book', {
-                    id: newBook.id
+                    id: newBook._id
                 });
             },
             (err) => {
