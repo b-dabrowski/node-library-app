@@ -1,0 +1,18 @@
+<book-meta book="$ctrl.book">
+    <span ng-show="$ctrl.canModify()">
+        <a class="btn btn-outline-secondary btn-sm"
+           ui-sref="app.editor({ id: $ctrl.book._id })">
+            Edit Book
+        </a>
+
+        <button class="btn btn-outline-danger btn-sm"
+          ng-class="{disabled: $ctrl.isDeleting}"
+          ng-click="$ctrl.deleteBook()">
+            Delete Book
+        </button>
+
+    </span>    
+    <span ng-hide="$ctrl.canModify()">
+        <follow-btn user="$ctrl.book.author"></follow-btn>        
+    </span>
+</book-meta>

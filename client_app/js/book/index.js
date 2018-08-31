@@ -8,5 +8,7 @@ bookModule.config(BookConfig);
 import BookCtrl from './book.controller';
 bookModule.controller('BookCtrl', BookCtrl);
 
+import BookActions from './book-actions.component';
+bookModule.component('bookActions', BookActions);
 
 export default bookModule;

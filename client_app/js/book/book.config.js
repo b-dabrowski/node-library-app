@@ -9,15 +9,27 @@ function BookConfig($stateProvider) {
             templateUrl: 'book/book.html',            
             title: 'Book',
             resolve: {
-                book: function (Book, $state, $stateParams) {
-                    return Book.get($stateParams.id).then(
-                        (data) => data.book,
-                        (err) => $state.go('app.home')
-                    );
+                book: function (Book, Author, $state, $stateParams) {
+                    let globalBook = {};
+                    return Book.get($stateParams.id)
+                            .then(
+                                (book) => {
+                                    globalBook = book;
+                                    return Author.getAuthorFollowingInfo(book.author._id);                                            
+                                },
+                                (err) => $state.go('app.home')
+                            )
+                            .then(
+                                (author) => {
+                                    globalBook.author = author;
+                                    return globalBook;
+                                },
+                                (err) => $state.go('app.home')
+                            );
                 }
             }
         });
 
-};
+}
 
 export default BookConfig;

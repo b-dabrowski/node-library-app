@@ -29,13 +29,14 @@ exports.get = function get(req, res, next) {
 };
 
 exports.getOne = function getOne(req, res) {
-  const book = req.book;
+  let book = req.book;
   const user = req.user;
   const isCurrentUserAddedBook = book.addedBy.id === user.id;
 
+  book = book.toJson();
+  book.canEdit = isCurrentUserAddedBook;
   res.json({
-    book: book.toJson(),
-    canEdit: isCurrentUserAddedBook
+    book
   });
 };
 
@@ -49,7 +50,12 @@ exports.put = function put(req, res, next) {
     if (err) {
       next(err);
     } else {
-      res.json(saved);
+      const updatedBook = saved.toJson();
+      updatedBook.canEdit = true;
+
+      res.json({
+        book: updatedBook
+      });
     }
   });
 };
@@ -61,11 +67,13 @@ exports.post = function post(req, res, next) {
   newBook.addedBy = user.id;
 
   Book.create(newBook)
-    .then((book) => {      
-      
+    .then((book) => {
+
+      const createdBook = book.toJson();
+      createdBook.canEdit = true;
+
       res.json({
-        book: book.toJson(),
-        canEdit: true
+        book: createdBook
       });
     }, (err) => {
       next(err);

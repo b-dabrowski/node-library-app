@@ -3,7 +3,7 @@ class BookCtrl {
         'ngInject';
 
         this.book = book;
-        $rootScope.setPageTitle(this.book.title);
+        $rootScope.setPageTitle(this.book.title);        
     }
 }
 

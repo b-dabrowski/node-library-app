@@ -2,9 +2,7 @@ class AuthorCtrl {
     constructor(author, User) {
       'ngInject';
       
-      this.author = author;      
-
-      console.log(this.author)
+      this.author = author;            
     }
   }
   

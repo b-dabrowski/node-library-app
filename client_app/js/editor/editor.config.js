@@ -27,9 +27,9 @@ function EditorConfig($stateProvider) {
         book: function(Book, $state, $stateParams) {          
           if ($stateParams.id) {
             return Book.get($stateParams.id).then(
-              (data) => {                
-                if (data.canEdit) {
-                  return data.book;                
+              (book) => {                
+                if (book.canEdit) {
+                  return book;                
                 } else {
                   $state.go('app.home');
                 }

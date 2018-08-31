@@ -37,10 +37,17 @@ export default class Book {
       url: `${this._AppConstants.api}/books/${id}`,
       method: 'GET'
     }).then(
-      (res) => deferred.resolve(res.data),
+      (res) => deferred.resolve(res.data.book),
       (err) => deferred.reject(err)
     );
 
     return deferred.promise;
+  }
+
+  destroy(id) {
+    return this._$http({
+      url: `${this._AppConstants.api}/books/${id}`,
+      method: 'DELETE'
+    });
   }
 }

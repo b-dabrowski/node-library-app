@@ -56,7 +56,7 @@ gulp.task('build', ['html', 'browserify'], () => {
                  .pipe(gulp.dest('./server/client/'));
 
   const js = gulp.src('client_app/build/main.js')
-               .pipe(uglify())
+              //  .pipe(uglify())
                .pipe(gulp.dest('./server/client/'));
 
   return merge(html, js);

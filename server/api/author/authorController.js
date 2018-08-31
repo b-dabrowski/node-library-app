@@ -121,7 +121,7 @@ exports.getAuthorFollowingInfo = function getAuthorFollowingInfo(req, res, next)
         .exec()
         .then((user) => {
             if (!user) {
-                next(new Error('No user with that id'));
+                next(new Error('No author with that id'));
             } else {                                
                 const followedAuthor = _.find(user.followedAuthors, followedAuthor => followedAuthor.id === author.id);                                
 

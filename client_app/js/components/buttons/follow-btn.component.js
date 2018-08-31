@@ -6,6 +6,8 @@
          this._User = User;
 
          this._$state = $state;
+
+         console.log(this.author);
      }
      submit() {
          this.isSubmitting = true;
