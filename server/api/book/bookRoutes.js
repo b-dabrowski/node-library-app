@@ -6,7 +6,7 @@ const checkUser = [auth.decodeToken(), auth.getFreshUser()];
 router.param('id', controller.params);
 
 router.route('/')
-  .get(controller.get)
+  .get(checkUser, controller.get)
   .post(checkUser, controller.post);
 
 router.route('/:id')

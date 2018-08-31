@@ -1,83 +1,23 @@
-<div class="article-page">
-
-    <!-- Banner for article title, action buttons -->
+<div class="article-page">    
     <div class="banner">
         <div class="container">
-
             <h1 ng-bind="::$ctrl.book.title"></h1>
-
             <book-actions book="$ctrl.book"></book-actions>
-
         </div>
     </div>
-
-    <!-- Main view. Contains article html and comments -->
-    <div class="container page">
-
-        <!-- Article's HTML & tags rendered here -->
+    
+    <div class="container page">        
         <div class="row article-content">
             <div class="col-xs-12">
-
                 <div>
                     <div ng-bind="::$ctrl.book.description"></div>
                 </div>
-
                 <ul class="tag-list">
                     <li ng-repeat="tag in ::$ctrl.book.tagList">
                         <span class="label label-default">{{ tag }}</span>
                     </li>
                 </ul>
             </div>
-        </div>
-
-        <hr />
-
-        <div class="article-actions">
-            
-            <book-actions book="$ctrl.book"></book-actions>
-
-        </div>
-
-        <!-- Comments section -->
-        <div class="row">
-            <div class="col-xs-12 col-md-8 offset-md-2">
-
-                <div>
-                    <form class="card comment-form">
-                        <div class="card-block">
-                            <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
-                        </div>
-                        <div class="card-footer">
-                            <img class="comment-author-img" />
-                            <button class="btn btn-sm btn-primary" type="submit">
-                                Post Comment
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="card">
-                    <div class="card-block">
-                        <p class="card-text">This is an example comment.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a class="comment-author" href="">
-                            <img class="comment-author-img" />
-                        </a>
-                        &nbsp;
-                        <a class="comment-author" href="">
-                            BradGreen
-                        </a>
-                        <span class="date-posted">
-                            Jan 20, 2016
-                        </span>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-
+        </div>                                
     </div>
-
 </div>

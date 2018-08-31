@@ -31,6 +31,10 @@ const BookSchema = new Schema({
     addedBy: {
         type: Schema.Types.ObjectId,
         ref: 'user'        
+    },
+    borrowedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'        
     }
 });
 

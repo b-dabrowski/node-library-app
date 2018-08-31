@@ -1,0 +1,14 @@
+<book-preview
+  book="book"
+  ng-repeat="book in $ctrl.list">
+</book-preview>
+
+<div class="book-preview"
+  ng-hide="!$ctrl.loading">
+  Loading books...
+</div>
+
+<div class="book-preview"
+  ng-show="!$ctrl.loading && !$ctrl.list.length">
+  No books are here... yet.
+</div>

@@ -20,9 +20,24 @@ exports.params = function addCategoryToRequest(req, res, next, id) {
 };
 
 exports.get = function get(req, res, next) {
-  Book.find({})
-    .then((book) => {
-      res.json(book);
+  const user = req.user;
+  const query = {};
+
+  if (req.query) {
+    if (req.query.created) {
+      query.addedBy = user.id;
+    }
+
+    if (req.query.borrowed) {
+      query.borrowedBy = user.id;
+    }
+  }  
+
+  Book.find(query)
+    .then((books) => {
+      res.json({
+        books
+      });
     }, (err) => {
       next(err);
     });
@@ -31,7 +46,11 @@ exports.get = function get(req, res, next) {
 exports.getOne = function getOne(req, res) {
   let book = req.book;
   const user = req.user;
-  const isCurrentUserAddedBook = book.addedBy.id === user.id;
+  let isCurrentUserAddedBook = false;
+
+  if (book.addedBy) {
+    isCurrentUserAddedBook = book.addedBy.id === user.id;
+  }
 
   book = book.toJson();
   book.canEdit = isCurrentUserAddedBook;

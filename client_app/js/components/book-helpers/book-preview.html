@@ -1,0 +1,11 @@
+<div class="article-preview">
+    <a ui-sref="app.book({ id: $ctrl.book._id })" class="preview-link">
+        <h1 ng-bind="$ctrl.book.title"></h1>        
+        <span>Read more...</span>
+        <ul class="tag-list">
+            <li ng-repeat="tag in $ctrl.article.tagList">
+                <span class="label label-default">{{tag}}</span>
+            </li>
+        </ul>
+    </a>
+</div>

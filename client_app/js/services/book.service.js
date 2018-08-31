@@ -50,4 +50,14 @@ export default class Book {
       method: 'DELETE'
     });
   }
+
+  query(config) {
+    let request = {
+      url: `${this._AppConstants.api}/books`,
+      method: 'GET',
+      params: config.filters ? config.filters : null
+    };
+
+    return this._$http(request).then((res) => res.data);
+  }
 }
