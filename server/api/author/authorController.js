@@ -19,7 +19,9 @@ exports.params = function addAuthorToRequest(req, res, next, id) {
 exports.get = function get(req, res, next) {
   Author.find({})
     .then((authors) => {
-      res.json({ authors });
+      res.json({
+        authors
+      });
     }, (err) => {
       next(err);
     });
@@ -27,7 +29,9 @@ exports.get = function get(req, res, next) {
 
 exports.getOne = function getOne(req, res) {
   const author = req.author;
-  res.json({ author });
+  res.json({
+    author
+  });
 };
 
 exports.put = function put(req, res, next) {
@@ -82,7 +86,7 @@ exports.follow = function follow(req, res, next) {
           author.isUserFollowing = true;
           res.json(author);
         }
-      });          
+      });
     }, (err) => {
       next(err);
     });
@@ -98,11 +102,11 @@ exports.unfollow = function follow(req, res, next) {
       user.save((err, updatedUser) => {
         if (err) {
           next(err);
-        } else {          
+        } else {
           author.isUserFollowing = false;
           res.json(author);
         }
-      });          
+      });
     }, (err) => {
       next(err);
     });
@@ -112,30 +116,36 @@ exports.getAuthorFollowingInfo = function getAuthorFollowingInfo(req, res, next)
   const user = req.user;
   let author = req.author;
 
-  User.findById(user.id)
-        .select('-password')
-        .populate({
-            path: 'followedAuthors',
-            model: 'author',
-        })            
-        .exec()
-        .then((user) => {
-            if (!user) {
-                next(new Error('No author with that id'));
-            } else {                                
-                const followedAuthor = _.find(user.followedAuthors, followedAuthor => followedAuthor.id === author.id);                                
+  if (user) {
+    User.findById(user.id)
+      .select('-password')
+      .populate({
+        path: 'followedAuthors',
+        model: 'author',
+      })
+      .exec()
+      .then((user) => {
+        if (!user) {
+          next(new Error('No author with that id'));
+        } else {
+          const followedAuthor = _.find(user.followedAuthors, followedAuthor => followedAuthor.id === author.id);
 
-                if (followedAuthor) {
-                  author = author.toJson();
-                  author.isUserFollowing = true;
-                  res.json(author);
-                } else {
-                  author = author.toJson();
-                  author.isUserFollowing = false;
-                  res.json(author);
-                }            
-            }
-        }, (err) => {
-            next(err);
-        });
+          if (followedAuthor) {
+            author = author.toJson();
+            author.isUserFollowing = true;
+            res.json(author);
+          } else {
+            author = author.toJson();
+            author.isUserFollowing = false;
+            res.json(author);
+          }
+        }
+      }, (err) => {
+        next(err);
+      });
+  } else {
+    author = author.toJson();
+    author.isUserFollowing = false;
+    res.json(author);
+  }
 };

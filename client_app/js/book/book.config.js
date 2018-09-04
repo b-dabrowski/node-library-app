@@ -9,13 +9,17 @@ function BookConfig($stateProvider) {
             templateUrl: 'book/book.html',            
             title: 'Book',
             resolve: {
-                book: function (Book, Author, $state, $stateParams) {
+                book: function (Book,User, Author, $state, $stateParams) {
                     let globalBook = {};
                     return Book.get($stateParams.id)
                             .then(
                                 (book) => {
                                     globalBook = book;
-                                    return Author.getAuthorFollowingInfo(book.author._id);                                            
+                                    if(User.current){
+                                        return Author.getAuthorFollowingInfo(book.author._id);
+                                    } else{
+                                        return Author.get(book.author._id);
+                                    }
                                 },
                                 (err) => $state.go('app.home')
                             )

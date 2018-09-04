@@ -6,11 +6,20 @@ const checkUser = [auth.decodeToken(), auth.getFreshUser()];
 router.param('id', controller.params);
 
 router.route('/')
-  .get(checkUser, controller.get)
+  .get(controller.get)
   .post(checkUser, controller.post);
 
+router.route('/borrowed')
+  .get(checkUser, controller.getBorrowed);
+
+router.route('/created')
+  .get(checkUser, controller.getCreated);
+
+router.route('/author')
+  .get(controller.getByAuthor);
+
 router.route('/:id')
-  .get(checkUser, controller.getOne)
+  .get(controller.getOne)
   .put(checkUser, controller.put)
   .delete(checkUser, controller.delete);
 

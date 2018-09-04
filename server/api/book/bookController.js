@@ -20,20 +20,46 @@ exports.params = function addCategoryToRequest(req, res, next, id) {
 };
 
 exports.get = function get(req, res, next) {
-  const user = req.user;
-  const query = {};
+  Book.find()
+    .then((books) => {
+      res.json({
+        books
+      });
+    }, (err) => {
+      next(err);
+    });
+};
 
-  if (req.query) {
-    if (req.query.created) {
-      query.addedBy = user.id;
-    }
+exports.getCreated = function get(req, res, next) {
+  const user = req.user;  
 
-    if (req.query.borrowed) {
-      query.borrowedBy = user.id;
-    }
-  }  
+  Book.find({ addedBy: user.id })
+    .then((books) => {
+      res.json({
+        books
+      });
+    }, (err) => {
+      next(err);
+    });
+};
 
-  Book.find(query)
+exports.getBorrowed = function get(req, res, next) {
+  const user = req.user; 
+
+  Book.find({ borrowedBy: user.id })
+    .then((books) => {
+      res.json({
+        books
+      });
+    }, (err) => {
+      next(err);
+    });
+};
+
+exports.getByAuthor = function get(req, res, next) {
+  const authorId = req.query.author; 
+
+  Book.find({ author: authorId })
     .then((books) => {
       res.json({
         books
@@ -48,7 +74,7 @@ exports.getOne = function getOne(req, res) {
   const user = req.user;
   let isCurrentUserAddedBook = false;
 
-  if (book.addedBy) {
+  if (book.addedBy && user) {
     isCurrentUserAddedBook = book.addedBy.id === user.id;
   }
 

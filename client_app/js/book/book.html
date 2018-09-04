@@ -2,7 +2,7 @@
     <div class="banner">
         <div class="container">
             <h1 ng-bind="::$ctrl.book.title"></h1>
-            <book-actions book="$ctrl.book"></book-actions>
+            <book-actions book="$ctrl.book" ng-show="$ctrl.canDoAction()"></book-actions>
         </div>
     </div>
     

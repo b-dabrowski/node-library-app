@@ -52,12 +52,38 @@ export default class Book {
   }
 
   query(config) {
+    let url = this.getUrl(config.type);
+
     let request = {
-      url: `${this._AppConstants.api}/books`,
+      url: url,
       method: 'GET',
       params: config.filters ? config.filters : null
     };
 
     return this._$http(request).then((res) => res.data);
+  }
+
+  getUrl(type) {
+    let url = '';
+
+    switch (type) {
+      case 'borrowed':
+        url = `${this._AppConstants.api}/books/borrowed`;
+        break;
+
+      case 'borrowed':
+        url = `${this._AppConstants.api}/books/created`;
+        break;
+
+      case 'author':
+        url = `${this._AppConstants.api}/books/author`;
+        break;
+
+      default:
+        url = `${this._AppConstants.api}/books`;
+        break;
+    }
+
+    return url;
   }
 }

@@ -4,8 +4,7 @@ class BookListCtrl {
   
       this._Book = Book;
   
-      this.setListTo(this.listConfig);
-  
+      this.setListTo(this.listConfig);  
     }
   
     setListTo(newList) {
@@ -21,9 +20,7 @@ class BookListCtrl {
       let queryConfig = {
         type: this.listConfig.type,
         filters: this.listConfig.filters || {}
-      };
-        
-      queryConfig.filters.limit = this.limit;
+      };              
         
       this._Book
         .query(queryConfig)
@@ -39,8 +36,7 @@ class BookListCtrl {
   }
   
   let BookList = {
-    bindings: {
-      limit: '=',
+    bindings: {      
       listConfig: '='
     },
     controller: BookListCtrl,

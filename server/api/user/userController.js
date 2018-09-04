@@ -47,7 +47,9 @@ exports.put = function (req, res, next) {
         if (err) {
             next(err);
         } else {
-            res.json(saved.toJson());
+            res.json({
+                user: saved.toJson()
+            });
         }
     });
 };
@@ -56,20 +58,19 @@ exports.post = function (req, res, next) {
     const newUser = new User(req.body);
 
     newUser.save((err, user) => {
-            if (err) {
-                return next(err);
-            } 
+        if (err) {
+            return next(err);
+        }
 
-            const token = signToken(user.id);
-            const username = user.username;
+        const token = signToken(user.id);
+        const username = user.username;
 
-            res.json({
-                user:
-                {
-                    token,
-                    username
-                }
-            });        
+        res.json({
+            user: {
+                token,
+                username
+            }
+        });
     });
 };
 
@@ -91,31 +92,32 @@ exports.me = function (req, res) {
 
 exports.getProfile = function (req, res, next) {
     const username = req.params.username;
-    User.findOne({ username })
+    User.findOne({
+            username
+        })
         .select('-password')
         .populate({
             path: 'books',
             model: 'book',
-            populate: [
-                { 
-                    path: 'category',                    
+            populate: [{
+                    path: 'category',
                     model: 'category'
                 },
-                { 
-                    path: 'author',                    
+                {
+                    path: 'author',
                     model: 'author'
-                }  
+                }
             ]
-        })        
+        })
         .exec()
         .then((user) => {
             if (!user) {
                 next(new Error('No user with that username'));
-            } else {                
+            } else {
                 req.user = user;
                 res.json({
                     profile: user.toJson()
-                });                       
+                });
             }
         }, (err) => {
             next(err);
