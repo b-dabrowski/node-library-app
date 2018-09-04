@@ -7,6 +7,7 @@
 
          this._$state = $state;         
      }
+     
      submit() {
          this.isSubmitting = true;
 

@@ -1,11 +1,14 @@
+/* eslint max-statements: 0 */
+
 const _ = require('lodash');
 const Book = require('./bookModel');
 
 exports.params = function addCategoryToRequest(req, res, next, id) {
   Book.findById(id)
-    .populate('category', 'id')
+    .populate('category')
     .populate('addedBy', 'id')
-    .populate('author', 'id')
+    .populate('borrowedBy', 'id')
+    .populate('author')
     .exec()
     .then((book) => {
       if (!book) {
@@ -69,17 +72,44 @@ exports.getByAuthor = function get(req, res, next) {
     });
 };
 
+exports.getByCategory = function get(req, res, next) {
+  const categoryId = req.query.category; 
+
+  Book.find({ category: categoryId })
+    .then((books) => {
+      res.json({
+        books
+      });
+    }, (err) => {
+      next(err);
+    });
+};
+
+exports.getOneNotLogged = function getOneNotLogged(req, res) {
+  const book = req.book;
+
+  res.json({
+    book
+  });
+};
+
 exports.getOne = function getOne(req, res) {
   let book = req.book;
   const user = req.user;
   let isCurrentUserAddedBook = false;
+  let isCurrentUserBorrowedBook = false;
 
-  if (book.addedBy && user) {
-    isCurrentUserAddedBook = book.addedBy.id === user.id;
+  if (user && book.borrowedBy) {
+    isCurrentUserBorrowedBook = book.borrowedBy.id === user.id;
+  }
+
+  if (book.addedBy) {
+    isCurrentUserAddedBook = book.addedBy.id === user.id;    
   }
 
   book = book.toJson();
   book.canEdit = isCurrentUserAddedBook;
+  book.currentUserBorrowed = isCurrentUserBorrowedBook;
   res.json({
     book
   });
@@ -132,6 +162,43 @@ exports.delete = function remove(req, res, next) {
       next(err);
     } else {
       res.json(removed);
+    }
+  });
+};
+
+exports.borrowBook = function borrowBook(req, res, next) {
+  const bookToBorrow = req.book;
+  const user = req.user;
+
+  bookToBorrow.borrowedBy = user.id;
+  bookToBorrow.available = false;
+  bookToBorrow.currentUserBorrowed = true;
+
+  bookToBorrow.save((err, borrowedBook) => {
+    if (err) {
+      next(err);
+    } else {      
+      res.json({
+        book: borrowedBook
+      });
+    }
+  });
+};
+
+exports.returnBook = function returnBook(req, res, next) {
+  const bookToReturn = req.book;
+
+  bookToReturn.borrowedBy = null;
+  bookToReturn.available = true;
+  bookToReturn.currentUserBorrowed = false;
+
+  bookToReturn.save((err, returnedBook) => {
+    if (err) {
+      next(err);
+    } else {      
+      res.json({
+        book: returnedBook
+      });
     }
   });
 };

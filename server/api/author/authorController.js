@@ -75,41 +75,31 @@ exports.follow = function follow(req, res, next) {
   const user = req.user;
   let author = req.author;
 
-  User.findById(user.id)
-    .then((user) => {
-      user.followedAuthors.push(author.id);
-      user.save((err, updatedUser) => {
-        if (err) {
-          next(err);
-        } else {
-          author = author.toJson();
-          author.isUserFollowing = true;
-          res.json(author);
-        }
-      });
-    }, (err) => {
+  user.followedAuthors.push(author.id);
+  user.save((err, updatedUser) => {
+    if (err) {
       next(err);
-    });
+    } else {
+      author = author.toJson();
+      author.isUserFollowing = true;
+      res.json(author);
+    }
+  });
 };
 
 exports.unfollow = function follow(req, res, next) {
   const user = req.user;
   const author = req.author;
 
-  User.findById(user.id)
-    .then((user) => {
-      user.followedAuthors.remove(author.id);
-      user.save((err, updatedUser) => {
-        if (err) {
-          next(err);
-        } else {
-          author.isUserFollowing = false;
-          res.json(author);
-        }
-      });
-    }, (err) => {
+  user.followedAuthors.remove(author.id);
+  user.save((err, updatedUser) => {
+    if (err) {
       next(err);
-    });
+    } else {
+      author.isUserFollowing = false;
+      res.json(author);
+    }
+  });
 };
 
 exports.getAuthorFollowingInfo = function getAuthorFollowingInfo(req, res, next) {

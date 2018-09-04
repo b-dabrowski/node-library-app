@@ -18,9 +18,19 @@ router.route('/created')
 router.route('/author')
   .get(controller.getByAuthor);
 
+router.route('/category')
+  .get(controller.getByCategory);
+
 router.route('/:id')
-  .get(controller.getOne)
+  .get(checkUser, controller.getOne)
   .put(checkUser, controller.put)
   .delete(checkUser, controller.delete);
+
+router.route('/:id/notLogged')
+  .get(controller.getOneNotLogged);
+
+router.route('/:id/borrow')
+  .post(checkUser, controller.borrowBook)
+  .delete(checkUser, controller.returnBook);
 
 module.exports = router;

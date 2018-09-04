@@ -17,4 +17,7 @@ componentsModule.component('bookPreview', BookPreview);
 import BookList from './book-helpers/book-list.component';
 componentsModule.component('bookList', BookList);
 
+import BorrowBtn from './buttons/borrow-btn.component';
+componentsModule.component('borrowBtn', BorrowBtn);
+
 export default componentsModule;

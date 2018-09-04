@@ -95,21 +95,7 @@ exports.getProfile = function (req, res, next) {
     User.findOne({
             username
         })
-        .select('-password')
-        .populate({
-            path: 'books',
-            model: 'book',
-            populate: [{
-                    path: 'category',
-                    model: 'category'
-                },
-                {
-                    path: 'author',
-                    model: 'author'
-                }
-            ]
-        })
-        .exec()
+        .select('-password')        
         .then((user) => {
             if (!user) {
                 next(new Error('No user with that username'));

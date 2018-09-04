@@ -17,19 +17,12 @@ const UserSchema = new Schema({
     role: {
         type: String,
         default: 'user'
-    },
-    books: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'book'
-        } 
-    ],
+    },    
     followedAuthors: [
         {
             type: Schema.Types.ObjectId,
             ref: 'author'
-        }
-        
+        }        
     ]
 });
 

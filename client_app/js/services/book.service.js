@@ -25,7 +25,7 @@ export default class Book {
     return this._$http(request).then((res) => res.data.book);
   }
 
-  get(id) {
+  get(id, isUserLogded) {
     let deferred = this._$q.defer();
 
     if (!id) {
@@ -34,7 +34,7 @@ export default class Book {
     }
 
     this._$http({
-      url: `${this._AppConstants.api}/books/${id}`,
+      url: `${this._AppConstants.api}/books/${id}${isUserLogded ? `` : `/notLogged`}`,
       method: 'GET'
     }).then(
       (res) => deferred.resolve(res.data.book),
@@ -71,12 +71,16 @@ export default class Book {
         url = `${this._AppConstants.api}/books/borrowed`;
         break;
 
-      case 'borrowed':
+      case 'created':
         url = `${this._AppConstants.api}/books/created`;
         break;
 
       case 'author':
         url = `${this._AppConstants.api}/books/author`;
+        break;
+
+      case 'category':
+        url = `${this._AppConstants.api}/books/category`;
         break;
 
       default:
@@ -85,5 +89,19 @@ export default class Book {
     }
 
     return url;
+  }
+
+  borrowBook(id){
+    return this._$http({
+      url: this._AppConstants.api + '/books/' + id + '/borrow',
+      method: 'POST'
+    }).then((res) => res.data);
+  }
+
+  returnBook(id){
+    return this._$http({
+      url: this._AppConstants.api + '/books/' + id + '/borrow',
+      method: 'DELETE'
+    }).then((res) => res.data);
   }
 }

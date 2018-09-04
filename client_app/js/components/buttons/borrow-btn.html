@@ -1,0 +1,9 @@
+<button
+  class="btn btn-sm"
+  ng-disabled="$ctrl.disable()"
+  ng-class="{ 'disabled': $ctrl.isSubmitting,              
+              'btn-primary': !$ctrl.book.currentUserBorrowed,
+              'btn-default': $ctrl.book.currentUserBorrowed }"
+  ng-click="$ctrl.submit()">   
+  {{ $ctrl.book.currentUserBorrowed ? 'Return' : 'Borrow' }}
+</button>

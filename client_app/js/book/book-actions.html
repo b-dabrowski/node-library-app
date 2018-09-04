@@ -12,7 +12,8 @@
         </button>
 
     </span>    
-    <span ng-hide="$ctrl.canModify()">
-        <follow-btn author="$ctrl.book.author"></follow-btn>        
-    </span>
+
+    <follow-btn author="$ctrl.book.author"></follow-btn>
+
+    <borrow-btn book="$ctrl.book"></borrow-btn>
 </book-meta>
