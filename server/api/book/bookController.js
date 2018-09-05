@@ -24,6 +24,9 @@ exports.params = function addCategoryToRequest(req, res, next, id) {
 
 exports.get = function get(req, res, next) {
   Book.find()
+    .populate('category')    
+    .populate('author')
+    .exec()
     .then((books) => {
       res.json({
         books
@@ -39,6 +42,9 @@ exports.getCreated = function get(req, res, next) {
   Book.find({
       addedBy: user.id
     })
+    .populate('category')    
+    .populate('author')
+    .exec()
     .then((books) => {
       res.json({
         books
@@ -54,6 +60,9 @@ exports.getBorrowed = function get(req, res, next) {
   Book.find({
       borrowedBy: user.id
     })
+    .populate('category')    
+    .populate('author')
+    .exec()
     .then((books) => {
       res.json({
         books
@@ -69,6 +78,9 @@ exports.getByAuthor = function get(req, res, next) {
   Book.find({
       author: authorId
     })
+    .populate('category')    
+    .populate('author')
+    .exec()
     .then((books) => {
       res.json({
         books
@@ -84,6 +96,9 @@ exports.getByCategory = function get(req, res, next) {
   Book.find({
       category: categoryId
     })
+    .populate('category')    
+    .populate('author')
+    .exec()
     .then((books) => {
       res.json({
         books
