@@ -33,22 +33,53 @@ class EditorCtrl {
         this.book.tags = this.book.tags.filter((tag) => tag != tagName);
     }
 
+    validate() {
+        let isDataValid = true;
+        this.errors = {};
+
+        if (!this.book.title.length) {
+            this.errors.title = ['field required'];
+            isDataValid = false;
+        }
+
+        if (!this.book.category.length) {
+            this.errors.category = ['field required'];
+            isDataValid = false;
+        }
+
+        if (!this.book.author.length) {
+            this.errors.author = ['field required'];
+            isDataValid = false;
+        }
+
+        if (!this.book.description.length) {
+            this.errors.description = ['field required'];
+            isDataValid = false;
+        }
+
+        return isDataValid;
+    }
+
     submit() {
         this.isSubmitting = true;
+        let isDataValid = this.validate();
 
-        this._Book.save(this.book).then(
-            (newBook) => {
-                this._$state.go('app.book', {
-                    id: newBook._id
-                });
-            },
-            (err) => {
-                this.isSubmitting = false;
-                this.errors = err.data.errors;
-            }
-        );
+        if (isDataValid) {        
+            this._Book.save(this.book).then(
+                (newBook) => {
+                    this._$state.go('app.book', {
+                        id: newBook._id
+                    });
+                },
+                (err) => {
+                    this.isSubmitting = false;
+                    this.errors = err.data.errors;
+                }
+            );
+        } else {
+            this.isSubmitting = false;
+        }
     }
 }
-
 
 export default EditorCtrl;

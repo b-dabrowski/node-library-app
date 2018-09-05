@@ -34,9 +34,11 @@ exports.get = function get(req, res, next) {
 };
 
 exports.getCreated = function get(req, res, next) {
-  const user = req.user;  
+  const user = req.user;
 
-  Book.find({ addedBy: user.id })
+  Book.find({
+      addedBy: user.id
+    })
     .then((books) => {
       res.json({
         books
@@ -47,9 +49,11 @@ exports.getCreated = function get(req, res, next) {
 };
 
 exports.getBorrowed = function get(req, res, next) {
-  const user = req.user; 
+  const user = req.user;
 
-  Book.find({ borrowedBy: user.id })
+  Book.find({
+      borrowedBy: user.id
+    })
     .then((books) => {
       res.json({
         books
@@ -60,9 +64,11 @@ exports.getBorrowed = function get(req, res, next) {
 };
 
 exports.getByAuthor = function get(req, res, next) {
-  const authorId = req.query.author; 
+  const authorId = req.query.author;
 
-  Book.find({ author: authorId })
+  Book.find({
+      author: authorId
+    })
     .then((books) => {
       res.json({
         books
@@ -73,9 +79,11 @@ exports.getByAuthor = function get(req, res, next) {
 };
 
 exports.getByCategory = function get(req, res, next) {
-  const categoryId = req.query.category; 
+  const categoryId = req.query.category;
 
-  Book.find({ category: categoryId })
+  Book.find({
+      category: categoryId
+    })
     .then((books) => {
       res.json({
         books
@@ -104,7 +112,7 @@ exports.getOne = function getOne(req, res) {
   }
 
   if (book.addedBy) {
-    isCurrentUserAddedBook = book.addedBy.id === user.id;    
+    isCurrentUserAddedBook = book.addedBy.id === user.id;
   }
 
   book = book.toJson();
@@ -133,6 +141,41 @@ exports.put = function put(req, res, next) {
       });
     }
   });
+};
+
+exports.validateData = function validateData(req, res, next) {
+  const newBook = req.body.book;
+
+  let isDataValid = true;
+  const errors = {};
+
+  if (!newBook.title.length) {
+    errors.title = ['field required'];
+    isDataValid = false;
+  }
+
+  if (!newBook.category.length) {
+    errors.category = ['field required'];
+    isDataValid = false;
+  }
+
+  if (!newBook.author.length) {
+    errors.author = ['field required'];
+    isDataValid = false;
+  }
+
+  if (!newBook.description.length) {
+    errors.description = ['field required'];
+    isDataValid = false;
+  }
+
+  if (isDataValid) {
+    next();
+  } else {
+    res.status(422).json({
+      errors
+    });
+  }
 };
 
 exports.post = function post(req, res, next) {
@@ -177,7 +220,7 @@ exports.borrowBook = function borrowBook(req, res, next) {
   bookToBorrow.save((err, borrowedBook) => {
     if (err) {
       next(err);
-    } else {      
+    } else {
       res.json({
         book: borrowedBook
       });
@@ -195,7 +238,7 @@ exports.returnBook = function returnBook(req, res, next) {
   bookToReturn.save((err, returnedBook) => {
     if (err) {
       next(err);
-    } else {      
+    } else {
       res.json({
         book: returnedBook
       });

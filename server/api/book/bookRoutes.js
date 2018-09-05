@@ -7,7 +7,7 @@ router.param('id', controller.params);
 
 router.route('/')
   .get(controller.get)
-  .post(checkUser, controller.post);
+  .post(checkUser, controller.validateData, controller.post);
 
 router.route('/borrowed')
   .get(checkUser, controller.getBorrowed);

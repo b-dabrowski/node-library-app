@@ -13,7 +13,7 @@ function BookConfig($stateProvider) {
                     let globalBook = {};
 
                     if (User.current) {
-                        return Book.get($stateParams.id, true)
+                        return Book.get($stateParams.id, User.current)
                             .then(
                                 (book) => {
                                     globalBook = book;
@@ -29,7 +29,7 @@ function BookConfig($stateProvider) {
                                 (err) => $state.go('app.home')
                             );
                     } else {
-                        return Book.get($stateParams.id, false)
+                        return Book.get($stateParams.id, User.current)
                             .then(
                                 (book) => {
                                     globalBook = book;                                
