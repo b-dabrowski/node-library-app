@@ -10,7 +10,7 @@ describe('[Authors]', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .end((err, resp) => {
-        expect(resp.body).to.be.an('array');
+        expect(resp.body.authors).to.be.an('array');
         done();
       });
   });
@@ -45,7 +45,7 @@ describe('[Authors]', () => {
         request(app)
           .get(`/api/authors/${author._id}`)
           .end((err, resp) => {
-            expect(resp.body).property('name').eq('authorInRequest');
+            expect(resp.body.author).property('name').eq('authorInRequest');
             done();
           });
       });
@@ -101,7 +101,7 @@ describe('[Authors]', () => {
         request(app)
           .get(`/api/authors/${author._id}`)          
           .end((err, resp) => {
-            expect(resp.body.name).to.equal('Unknown');
+            expect(resp.body.author.name).to.equal('Unknown');
             done();
           });
       });
