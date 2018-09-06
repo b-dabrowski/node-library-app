@@ -4,6 +4,7 @@ const request = require('supertest');
 const app = require('../../server');
 
 describe('[Books]', () => {
+
     it('should get all books', (done) => {
         request(app)
             .get('/api/books')
@@ -11,74 +12,114 @@ describe('[Books]', () => {
             .expect('Content-Type', /json/)
             .expect(200)
             .end((err, resp) => {
-                expect(resp.body).to.be.an('array');
+                expect(resp.body.books).to.be.an('array');
                 done();
             });
     });
 
-    it('should create book', (done) => {
+    it('should delete book', (done) => {
         request(app)
-            .post('/api/authors')
+            .post('/api/users')
             .send({
-                name: 'name',
-                surname: 'surname'
+                user: {
+                    username: 'userBook',
+                    password: 'testBook'
+                }
             })
             .set('Accept', 'application/json')
             .end((err, resp) => {
-                const author = resp.body;
+                const token = resp.body.user.token;
+
                 request(app)
-                    .post('/api/categories')
-                    .send({
-                        name: 'category',
-                    })
+                    .get('/api/books')
+                    .set('Accept', 'application/json')
                     .end((err, resp) => {
-                        const category = resp.body;
+                        const book = resp.body.books[0];
+
                         request(app)
-                            .post('/api/books')
-                            .send({
-                                title: 'title',
-                                description: 'description',
-                                available: true,
-                                category: category._id,
-                                author: author._id
-                            })
+                            .delete(`/api/books/${book._id}`)
+                            .set('Authorization', token)
                             .end((err, resp) => {
-                                expect(resp.body.title).to.equal('title');
+                                expect(resp.body).property('title').eq(book.title);
                                 done();
                             });
                     });
             });
     });
 
-    it('should delete book', (done) => {
+    it('should update book', (done) => {
         request(app)
-            .get('/api/books')
+            .post('/api/users')
+            .send({
+                user: {
+                    username: 'userBook01',
+                    password: 'testBook01'
+                }
+            })
             .set('Accept', 'application/json')
             .end((err, resp) => {
-                const book = resp.body[0];
+                const token = resp.body.user.token;
+
                 request(app)
-                    .delete(`/api/books/${book._id}`)
+                    .get('/api/books')
+                    .set('Accept', 'application/json')
                     .end((err, resp) => {
-                        expect(resp.body).property('title').eq(book.title);
-                        done();
+                        const book = resp.body.books[0];
+
+                        request(app)
+                            .put(`/api/books/${book._id}`)
+                            .send({
+                                book: {
+                                    title: 'newTitle',
+                                    category: book.category._id,
+                                    author: book.author._id,
+                                    description: book.description,
+                                }
+                            })
+                            .set('Authorization', token)
+                            .end((err, resp) => {
+                                expect(resp.body.book.title).to.equal('newTitle');
+                                done();
+                            });
                     });
             });
     });
 
-    it('should update book', (done) => {
+    it('should create book', (done) => {
         request(app)
-            .get('/api/books')
-            .set('Accept', 'application/json')            
+            .post('/api/users')
+            .send({
+                user: {
+                    username: 'userBook02',
+                    password: 'testBook02'
+                }
+            })
+            .set('Accept', 'application/json')
             .end((err, resp) => {
-                const book = resp.body[0];
+                const token = resp.body.user.token;
+
                 request(app)
-                    .put(`/api/books/${book._id}`)
-                    .send({
-                        title: 'newTitle',
-                    })
+                    .get('/api/books')
+                    .set('Accept', 'application/json')
                     .end((err, resp) => {
-                        expect(resp.body.title).to.equal('newTitle');
-                        done();
+                        const book = resp.body.books[0];
+
+                        request(app)
+                            .post('/api/books')
+                            .send({
+                                book: {
+                                    title: 'title',
+                                    description: 'description',
+                                    available: true,
+                                    category: book.category._id,
+                                    author: book.author._id,
+                                }
+                            })
+                            .set('Authorization', token)
+                            .end((err, resp) => {
+                                expect(resp.body.book.title).to.equal('title');
+                                done();
+                            });
                     });
             });
     });
