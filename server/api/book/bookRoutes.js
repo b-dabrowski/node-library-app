@@ -23,7 +23,7 @@ router.route('/category')
 
 router.route('/:id')
   .get(checkUser, controller.getOne)
-  .put(checkUser, controller.put)
+  .put(checkUser, controller.validateData, controller.put)
   .delete(checkUser, controller.delete);
 
 router.route('/:id/notLogged')

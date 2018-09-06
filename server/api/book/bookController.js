@@ -141,6 +141,8 @@ exports.getOne = function getOne(req, res) {
 exports.put = function put(req, res, next) {
   const book = req.book;
   const update = req.body.book;
+  
+  book.tags = [];
 
   _.merge(book, update);
 
@@ -165,22 +167,22 @@ exports.validateData = function validateData(req, res, next) {
   const errors = {};
 
   if (!newBook.title.length) {
-    errors.title = ['field required'];
+    errors.title = ['field is required'];
     isDataValid = false;
   }
 
   if (!newBook.category.length) {
-    errors.category = ['field required'];
+    errors.category = ['field is required'];
     isDataValid = false;
   }
 
   if (!newBook.author.length) {
-    errors.author = ['field required'];
+    errors.author = ['field is required'];
     isDataValid = false;
   }
 
   if (!newBook.description.length) {
-    errors.description = ['field required'];
+    errors.description = ['field is required'];
     isDataValid = false;
   }
 

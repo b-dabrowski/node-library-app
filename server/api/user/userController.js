@@ -1,4 +1,6 @@
 /* eslint consistent-return: 0 */
+/* eslint max-statements: 0 */
+
 const User = require('./userModel');
 const _ = require('lodash');
 const signToken = require('../../auth/auth').signToken;
@@ -54,8 +56,33 @@ exports.put = function (req, res, next) {
     });
 };
 
+exports.validate = function (req, res, next) {
+    const user = req.body.user;
+  
+    let isDataValid = true;
+    const errors = {};
+  
+    if (!user || !user.username || !user.username.length) {
+      errors.username = ['field is required'];
+      isDataValid = false;
+    }
+  
+    if (!user || !user.password || !user.password.length) {
+      errors.password = ['field is required'];
+      isDataValid = false;
+    }
+  
+    if (isDataValid) {
+      next();
+    } else {
+      res.status(422).json({
+        errors
+      });
+    }
+  };
+
 exports.post = function (req, res, next) {
-    const newUser = new User(req.body);
+    const newUser = new User(req.body.user);
 
     newUser.save((err, user) => {
         if (err) {

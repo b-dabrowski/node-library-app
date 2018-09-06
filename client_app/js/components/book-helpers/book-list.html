@@ -4,11 +4,11 @@
 </book-preview>
 
 <div class="book-preview"
-  ng-hide="!$ctrl.loading">
-  Loading books...
+  ng-hide="!$ctrl.loading">  
+  <div class="alert alert-info" role="alert">Loading books...</div>
 </div>
 
 <div class="book-preview"
   ng-show="!$ctrl.loading && !$ctrl.list.length">
-  No books are here... yet.
+  <div class="alert alert-info" role="alert">No books are here... yet.</div>  
 </div>

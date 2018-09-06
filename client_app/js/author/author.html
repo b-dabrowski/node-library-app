@@ -1,14 +1,13 @@
-<div class="profile-page">
-  
-  <div class="user-info">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12 col-md-10 offset-md-1">
-
-          <h4 ng-bind="::$ctrl.author.name"></h4>
-          <follow-btn author="$ctrl.author" ng-show="$ctrl.canDoAction()"></follow-btn>
-
-        </div>
+<div class="author-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>
+          Books written by: {{::$ctrl.author.surname}} {{::$ctrl.author.name}}
+          <div class="pull-right">
+              <follow-btn author="$ctrl.author" ng-show="$ctrl.canDoAction()"></follow-btn>
+          </div>          
+        </h1>        
       </div>
     </div>
   </div>
@@ -18,5 +17,4 @@
       <book-list list-config="$ctrl.listConfig"></book-list>
     </div>
   </div>
-
 </div>

@@ -9,6 +9,9 @@ function ProfileConfig($stateProvider) {
       controllerAs: '$ctrl',
       templateUrl: 'profile/profile.html',
       resolve: {
+        auth: function(User) {
+          return User.ensureAuthIs(true);
+        },
         profile: function (Profile, $state, $stateParams) {
           return Profile.get($stateParams.username).then(
             (profile) => profile,

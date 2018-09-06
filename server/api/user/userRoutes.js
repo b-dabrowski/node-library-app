@@ -9,8 +9,8 @@ router.get('/me', checkUser, controller.me);
 
 router.route('/')
   .get(controller.get)
-  .put(checkUser, controller.put)
-  .post(controller.post);
+  .put(checkUser, controller.validate, controller.put)
+  .post(controller.validate, controller.post);
 
 router.route('/:id')
   .get(controller.getOne)

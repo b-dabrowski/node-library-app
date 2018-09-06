@@ -1,9 +1,7 @@
 function AuthConfig($stateProvider, $httpProvider) {
     'ngInject';
   
-    // Define the routes
     $stateProvider
-  
     .state('app.login', {
       url: '/login',
       controller: 'AuthCtrl as $ctrl',

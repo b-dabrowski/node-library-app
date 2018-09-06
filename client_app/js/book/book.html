@@ -1,23 +1,26 @@
-<div class="article-page">    
-    <div class="banner">
-        <div class="container">
+<div class="book-page">
+    <div class="container">                
+        <div class="jumbotron">
             <h1 ng-bind="::$ctrl.book.title"></h1>
+            <p>Written by: {{::$ctrl.book.author.surname}} {{::$ctrl.book.author.name}}</p>
+            <p>Category: {{::$ctrl.book.category.name}}</p>
+            <div ng-show="::$ctrl.book.tags.length">
+                <p>
+                    Tags:
+                    <span ng-repeat="tag in ::$ctrl.book.tags">#{{ tag }} </span>
+                </p>
+            </div>            
             <book-actions book="$ctrl.book" ng-show="$ctrl.canDoAction()"></book-actions>
-        </div>
+          </div>
     </div>
-    
-    <div class="container page">        
-        <div class="row article-content">
+
+    <div class="container">
+        <div class="row">
             <div class="col-xs-12">
                 <div>
-                    <div ng-bind="::$ctrl.book.description"></div>
-                </div>
-                <ul class="tag-list">
-                    <li ng-repeat="tag in ::$ctrl.book.tagList">
-                        <span class="label label-default">{{ tag }}</span>
-                    </li>
-                </ul>
+                    <p class="lead" ng-bind="::$ctrl.book.description"></p>
+                </div>                
             </div>
-        </div>                                
+        </div>
     </div>
 </div>

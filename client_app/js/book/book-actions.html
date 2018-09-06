@@ -1,19 +1,19 @@
 <book-meta book="$ctrl.book">
-    <span ng-show="$ctrl.canModify()">
-        <a class="btn btn-outline-secondary btn-sm"
-           ui-sref="app.editor({ id: $ctrl.book._id })">
-            Edit Book
-        </a>
-
-        <button class="btn btn-outline-danger btn-sm"
-          ng-class="{disabled: $ctrl.isDeleting}"
-          ng-click="$ctrl.deleteBook()">
-            Delete Book
-        </button>
-
-    </span>    
+    <a class="btn btn-primary" ui-sref="app.home()">
+        Home Page
+     </a>
 
     <follow-btn author="$ctrl.book.author"></follow-btn>
 
     <borrow-btn book="$ctrl.book"></borrow-btn>
+
+    <span ng-show="$ctrl.canModify()">
+        <a class="btn btn-primary" ui-sref="app.editor({ id: $ctrl.book._id })">
+            Edit Book
+        </a>
+
+        <button class="btn btn-danger" ng-class="{disabled: $ctrl.isDeleting}" ng-click="$ctrl.deleteBook()">
+            Delete Book
+        </button>
+    </span>
 </book-meta>

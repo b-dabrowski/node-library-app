@@ -1,13 +1,8 @@
-<div class="profile-page">
-
-    <div class="user-info">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-md-10 offset-md-1">
-
-                    <h4 ng-bind="::$ctrl.category.name"></h4>                    
-                    
-                </div>
+<div class="category-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 offset-md-1">
+                <h1>Books by {{::$ctrl.category.name}} category</h1>
             </div>
         </div>
     </div>
@@ -17,5 +12,4 @@
             <book-list list-config="$ctrl.listConfig"></book-list>
         </div>
     </div>
-
 </div>

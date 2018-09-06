@@ -38,22 +38,22 @@ class EditorCtrl {
         this.errors = {};
 
         if (!this.book.title.length) {
-            this.errors.title = ['field required'];
+            this.errors.title = ['field is required'];
             isDataValid = false;
         }
 
         if (!this.book.category.length) {
-            this.errors.category = ['field required'];
+            this.errors.category = ['field is required'];
             isDataValid = false;
         }
 
         if (!this.book.author.length) {
-            this.errors.author = ['field required'];
+            this.errors.author = ['field is required'];
             isDataValid = false;
         }
 
         if (!this.book.description.length) {
-            this.errors.description = ['field required'];
+            this.errors.description = ['field is required'];
             isDataValid = false;
         }
 

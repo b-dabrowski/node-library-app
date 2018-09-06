@@ -7,9 +7,7 @@ class SettingsCtrl {
 
     this.formData = {
       username: User.current.username
-    };
-
-    this.logout = User.logout.bind(User);
+    };    
   }
 
   submitForm() {
