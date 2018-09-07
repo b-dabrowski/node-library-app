@@ -5,8 +5,15 @@ const logger = require('./util/logger');
 const addGlobalMiddleware = require('./middleware/appMiddleware');
 const api = require('./api/api');
 const auth = require('./auth/authRoutes');
+const mongoose = require('mongoose');
 
-require('mongoose').connect(config.db.url);
+const dbPromise = mongoose.connect(config.db.url, {
+  useMongoClient: true,
+});
+
+dbPromise.then((db) => {
+  db.model();
+});
 
 if (config.seed) {
   require('./util/seed');
