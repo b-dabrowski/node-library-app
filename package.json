@@ -4,7 +4,9 @@
   "description": "Simple app for searching and borrowing books",
   "main": "index.js",
   "scripts": {
-    "test": "mocha server/api/**/*.spec.js"
+    "test": "mocha server/api/**/*.spec.js",
+    "build": "gulp build",
+    "start": "npm run-script build && node index.js"
   },
   "repository": {
     "type": "git",
