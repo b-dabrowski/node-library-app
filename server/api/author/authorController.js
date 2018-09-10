@@ -75,7 +75,8 @@ exports.follow = function follow(req, res, next) {
   const user = req.user;
   let author = req.author;
 
-  user.followedAuthors.push(author.id);
+  user.followedAuthors = user.followedAuthors.concat([author.id]);
+  
   user.save((err, updatedUser) => {
     if (err) {
       next(err);
